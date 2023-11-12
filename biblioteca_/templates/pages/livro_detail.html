@@ -73,7 +73,9 @@
       <p class="card-text">
         {{livro.qtd_exemplares}}
       </p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <a href="{% url 'empresta_livro' livro.id %}" class="btn btn-primary">Emprestar</a>
+      <a href="{% url 'delete_livro' livro.id %}" class="btn btn-danger">Remover</a>
+      
     </div>
   </div>
 

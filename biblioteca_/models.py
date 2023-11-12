@@ -17,7 +17,7 @@ class Livros(models.Model):
     qtd_exemplares = models.IntegerField()
     capa = models.ImageField(blank=False)
     autor = models.CharField(max_length=255)
-
+    # disponibilidade = models.BooleanField(default=True)
         
     def __str__(self):
         return self.titulo

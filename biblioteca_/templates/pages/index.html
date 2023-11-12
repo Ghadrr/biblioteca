@@ -40,12 +40,12 @@
                                 Dropdown
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Indisponivel</a></li>
+                                <li><a class="dropdown-item" href="#">Disponivel</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li><a class="dropdown-item" href="#">Todos</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -59,15 +59,17 @@
                 </div>
             </div>
         </nav>
-
+        <a href="{% url 'add_book' %}" class="btn_add_book">
+            <button type="button" class="btn btn-primary">Adicionar Livro</button>
+        </a>
         <div class="div_table">
 
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Genero</th>
                         <th scope="col">Autor</th>
                         <th scope="col">Exemplares</th>
                     </tr>
