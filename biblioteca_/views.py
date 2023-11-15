@@ -57,3 +57,16 @@ def empresta_livro(request, id):
     else:
         return render(request, 'pages/livro_detail.html', {'livro': livro})
 
+def livro_indisponivel(request):
+    livros = Livros.objects.filter(qtd_exemplares=0)
+    return render(request, 'pages/index.html', {'livros': livros})
+
+
+def livro_disponivel(request):
+    livros = Livros.objects.filter(qtd_exemplares__gte=1)
+    return render(request, 'pages/index.html', {'livros': livros})
+
+def search_livro(request):
+    q = request.GET.get('q')
+    livros = Livros.objects.filter(titulo__icontains=q)
+    return render(request, 'pages/index.html', {'livros':livros})
