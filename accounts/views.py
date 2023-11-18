@@ -14,7 +14,7 @@ def user_login(request):
             return redirect('login')
         else:
             auth.login(request,userVerify)
-            return redirect('biblioteca_/home')
+            return redirect('home')
     
     else:
         return render(request, 'pages/login.html')
@@ -29,7 +29,7 @@ def register(request):
         User.objects.create_user(username=username,
                                  email=email,
                                  password=password)
-        return render(request, 'pages/login.html')
+        return redirect('login')
     else:
         return render(request, 'pages/register.html')
 

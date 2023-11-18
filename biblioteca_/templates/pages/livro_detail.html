@@ -62,18 +62,24 @@
     <div class="card-body">
       <h5 class="card-title">{{livro.titulo}}</h5>
       <p class="card-text">
-        {{livro.genero}}
+        Genero: {{livro.genero}}
       </p>
       <p class="card-text">
-        {{livro.autor}}
+        Escritor: {{livro.autor}}
       </p>
       <p class="card-text">
-        {{livro.qtd_paginas}}
+        Páginas: {{livro.qtd_paginas}}
       </p>
       <p class="card-text">
-        {{livro.qtd_exemplares}}
+        Exemplares: {{livro.qtd_exemplares}}
       </p>
+      {% if livro.qtd_exemplares > 0 %}
       <a href="{% url 'empresta_livro' livro.id %}" class="btn btn-primary">Emprestar</a>
+    {% else %}
+      <button class="btn btn-primary" disabled>Indisponível</button>
+    {% endif %}
+
+      <!-- <a href="{% url 'empresta_livro' livro.id %}" class="btn btn-primary">Emprestar</a> -->
       <a href="{% url 'delete_livro' livro.id %}" class="btn btn-danger">Remover</a>
       
     </div>

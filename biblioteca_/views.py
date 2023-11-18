@@ -3,6 +3,9 @@ from .models import Livros, Generos
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Livros, Generos
+from django.contrib.auth.decorators import login_required
+
+@login_required(redirect_field_name='login')
 
 def add_book(request):
     if request.method == 'POST':
