@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Generos(models.Model):
     genero = models.CharField(max_length=255)
@@ -11,6 +12,7 @@ class Generos(models.Model):
         verbose_name_plural=  'Generos'
 
 class Livros(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=255)
     genero = models.ForeignKey(Generos, on_delete=models.CASCADE)
     qtd_paginas = models.IntegerField()

@@ -20,6 +20,7 @@ def add_book(request):
         genero = get_object_or_404(Generos, id=genero_id)
 
         Livros.objects.create(
+            user_id=request.user.id,
             titulo=titulo,
             genero=genero,
             qtd_paginas=qtd_paginas,
