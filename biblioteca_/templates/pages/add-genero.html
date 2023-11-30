@@ -1,0 +1,20 @@
+<!-- Adicione esta seção ao seu HTML para definir o modal -->
+<div class="modal fade" id="adicionarGeneroModal" tabindex="-1" aria-labelledby="adicionarGeneroModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adicionarGeneroModalLabel">Adicionar Gênero</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Adicione o formulário para adicionar o gênero aqui -->
+                <form method="post" action="{% url 'adicionar_genero' %}">
+                    {% csrf_token %}
+                    <label for="novo_genero">Novo Gênero:</label>
+                    <input type="text" name="novo_genero" required>
+                    <button type="submit" class="btn btn-primary">Adicionar Gênero</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

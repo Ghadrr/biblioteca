@@ -9,7 +9,8 @@ urlpatterns = [
     path('empresta-livro/<int:id>/', views.empresta_livro, name='empresta_livro'),
     path('livro-indisponivel/', views.livro_indisponivel, name='livro_indisponivel'),
     path('livro-disponivel/', views.livro_disponivel, name='livro_disponivel'),
-    path('search-livro/', views.search_livro, name='search_livro')
+    path('search-livro/', views.search_livro, name='search_livro'),
+    path('adicionar_genero/', views.adicionar_genero, name='adicionar_genero')
 
 
 ]

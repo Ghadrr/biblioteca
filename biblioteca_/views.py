@@ -34,6 +34,18 @@ def add_book(request):
     else:
         generos = Generos.objects.all()   
         return render(request, 'pages/add-book.html', {'generos': generos})
+    
+def adicionar_genero(request):
+    if request.method == 'POST':
+        novo_genero = request.POST.get('novo_genero')
+
+        if novo_genero:
+            Generos.objects.create(genero=novo_genero)
+
+        # Após adicionar o gênero, redirecione para a página desejada
+        return redirect('adicionar_genero')  # Substitua 'nome_da_pagina' pelo nome real da página
+
+    return redirect( 'home')
 
 def index(request):
     livros = Livros.objects.all()
