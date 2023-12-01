@@ -68,7 +68,12 @@
             <div class="col-md-4">
                 <div class="card mb-4">
                     {% if livro_alugado.livro %}
-                        <img src="{{ livro_alugado.livro.capa.url }}" class="card-img-top" alt="{{ livro_alugado.livro.titulo }}">
+                        <!-- <img src="{{ livro_alugado.livro.capa.url }}" class="card-img-top" alt="{{ livro_alugado.livro.titulo }}"> -->
+                        {% if livro.capa %}
+                        <img src="{{livro.capa.url}}" class="card-img-top" alt="...">
+                        {% else %}
+                        <img src="https://www.ferramentastenace.com.br/wp-content/uploads/2017/11/sem-foto.jpg" class="card-img-top" alt="...">
+                        {% endif %}
                         <div class="card-body">
                             
                             <h5 class="card-title">{{ livro_alugado.livro.titulo }}</h5>
