@@ -41,7 +41,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'livro_indisponivel' %}">Indisponivel</a></li>
-                                
+
                                 <li><a class="dropdown-item" href="{% url 'livro_disponivel' %}">Disponível</a></li>
 
                                 <li>
@@ -51,49 +51,50 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <li><a class="btn btn-danger" href="{% url 'logout' %}">logout</a></li>
+                        <li><a class="btn btn-danger" href="{% url 'logout' %}">logout</a></li>
                         </li>
                     </ul>
                     <form class="d-flex" role="search" action="{% url 'search_livro' %}">
-                        <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input name="q" class="form-control me-2" type="search" placeholder="Search"
+                            aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
             </div>
         </nav>
-<!-- Alterações na parte do loop que exibe os livros -->
-{% if livros_alugados %}
-    <div class="row">
-        {% for livro_alugado in livros_alugados %}
+        <!-- Alterações na parte do loop que exibe os livros -->
+        {% if livros_alugados %}
+        <div class="row">
+            {% for livro_alugado in livros_alugados %}
             <div class="col-md-4">
                 <div class="card mb-4">
                     {% if livro_alugado.livro %}
-                        <!-- <img src="{{ livro_alugado.livro.capa.url }}" class="card-img-top" alt="{{ livro_alugado.livro.titulo }}"> -->
-                        {% if livro.capa %}
-                        <img src="{{livro.capa.url}}" class="card-img-top" alt="...">
-                        {% else %}
-                        <img src="https://www.ferramentastenace.com.br/wp-content/uploads/2017/11/sem-foto.jpg" class="card-img-top" alt="...">
-                        {% endif %}
-                        <div class="card-body">
-                            
-                            <h5 class="card-title">{{ livro_alugado.livro.titulo }}</h5>
-                            <p class="card-text"><strong>Gênero:</strong> {{ livro_alugado.livro.genero }}</p>
-                            <a href="{% url 'devolve_livro' livro_alugado.livro.id %}" class="btn btn-danger">Devolver</a>
-                        </div>
+                    {% if livro_alugado.livro.capa %}
+                    <img src="{{ livro_alugado.livro.capa.url }}" class="card-img-top"
+                        alt="{{ livro_alugado.livro.titulo }}">
                     {% else %}
-                        <p>O livro não está disponível.</p>
+                    <img src="https://www.ferramentastenace.com.br/wp-content/uploads/2017/11/sem-foto.jpg"
+                        class="card-img-top" alt="NAO CARREGO">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ livro_alugado.livro.titulo }}</h5>
+                        <p class="card-text"><strong>Gênero:</strong> {{ livro_alugado.livro.genero }}</p>
+                        <a href="{% url 'devolve_livro' livro_alugado.livro.id %}" class="btn btn-danger">Devolver</a>
+                    </div>
+                    {% else %}
+                    <p>O livro não está disponível.</p>
                     {% endif %}
                 </div>
             </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <!-- Se o usuário não tem livros alugados -->
-    <div class="alert alert-info" role="alert">
-        Você não possui livros alugados no momento.
-    </div>
-{% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Se o usuário não tem livros alugados -->
+        <div class="alert alert-info" role="alert">
+            Você não possui livros alugados no momento.
+        </div>
+        {% endif %}
 
 
-            
+
 </body>

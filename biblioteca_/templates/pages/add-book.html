@@ -62,82 +62,79 @@
             </div>
         </nav>
         
-        <div class="maodal" tabindex="-1">
-            <div class="modal-dialog">
+        <div class="moadal" tabindex="-1" id="publicarModal">
+          <div class="modal-dialog">
               <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Modal title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    
-                    <form method="POST" action="" enctype="multipart/form-data" >
-                        {% csrf_token %}
-                        <div class="row g-3 align-items-center">
-                            <div class="col-auto">
-                              <label for="" class="col-form-label">Titulo</label>
-                            </div>
-                            <div class="col-auto">
-                              <input type="text" class="form-control" name="titulo">
-                            </div>
-                            <div class="col-auto">
-                            </div>
+                  <div class="modal-header">
+                      <h5 class="modal-title">Publicar Livro</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form method="POST" action="" enctype="multipart/form-data" id="publicarForm">
+                          {% csrf_token %}
+                          <div class="mb-3">
+                              <label for="titulo" class="form-label">Título</label>
+                              <input type="text" class="form-control" id="titulo" name="titulo" required>
                           </div>
                           <select class="form-select" name="genero" aria-label="Default select example">
-
-                            {% for genero in generos %}
-                            
-                            <option value="{{genero.id}}">{{ genero.genero }}</option>
-                            
-                            {% endfor %}
+                              {% for genero in generos %}
+                                  <option value="{{genero.id}}">{{ genero.genero }}</option>
+                              {% endfor %}
                           </select>
-                          <div class="row g-3 align-items-center">
-                            <div class="col-auto">
-                              <label for="" class="col-form-label">N de Paginas</label>
-                            </div>
-                            <div class="col-auto">
-                              <input type="number" class="form-control" name="qtd_paginas">
-                            </div>
-                            <div class="col-auto">
-                            </div>
-                          </div>
-                          <div class="row g-3 align-items-center">
-                            <div class="col-auto">
-                              <label for="" class="col-form-label">N de Exemplares</label>
-                            </div>
-                            <div class="col-auto">
-                              <input type="number" class="form-control" name="qtd_exemplares">
-                            </div>
-                            <div class="col-auto">
-                            </div>
+                          <div class="mb-3">
+                              <label for="qtd_paginas" class="form-label">N de Paginas</label>
+                              <input type="number" class="form-control" id="qtd_paginas" name="qtd_paginas">
                           </div>
                           <div class="mb-3">
-                            <label for="formFile" class="form-label">Capa</label>
-                            <input class="form-control" type="file" id="formFile" name="capa">
+                              <label for="qtd_exemplares" class="form-label">N de Exemplares</label>
+                              <input type="number" class="form-control" id="qtd_exemplares" name="qtd_exemplares">
                           </div>
-                          <div class="row g-3 align-items-center">
-                            <div class="col-auto">
-                              <label for="" class="col-form-label">Autor</label>
-                            </div>
-                            <div class="col-auto">
-                              <input type="text" class="form-control" name="autor">
-                            </div>
-                            <div class="col-auto">
-                            </div>
+                          <div class="mb-3">
+                              <label for="capa" class="form-label">Capa</label>
+                              <input class="form-control" type="file" id="capa" name="capa">
+                          </div>
+                          <div class="mb-3">
+                              <label for="autor" class="form-label">Autor</label>
+                              <input type="text" class="form-control" id="autor" name="autor">
                           </div>
                           <div class="modal-footer">
-                            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Publicar</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary" id="publicarBtn" disabled>Publicar</button>
                           </div>
-
-                    </form>
-                </div>
+                      </form>
+                  </div>
               </div>
-            </div>
-        </div>
-   
-   
-   
-    </div>
-</body>
-</html>
+          </div>
+      </div>
+      
+      <script>
+          // Adicione eventos oninput/onchange aos campos do formulário
+          document.addEventListener("DOMContentLoaded", function () {
+              document.getElementById("titulo").addEventListener("input", checkForm);
+              document.getElementById("qtd_paginas").addEventListener("input", checkForm);
+              document.getElementById("qtd_exemplares").addEventListener("input", checkForm);
+              document.getElementById("capa").addEventListener("input", checkForm);
+              document.getElementById("autor").addEventListener("input", checkForm);
+          });
+      
+          function checkForm() {
+              // Obtém os valores dos campos
+              var titulo = document.getElementById("titulo").value;
+              var qtdPaginas = document.getElementById("qtd_paginas").value;
+              var qtdExemplares = document.getElementById("qtd_exemplares").value;
+              var capa = document.getElementById("capa").value;
+              var autor = document.getElementById("autor").value;
+      
+              // Obtém o botão "Publicar"
+              var publicarBtn = document.getElementById("publicarBtn");
+      
+              // Verifica se todos os campos estão preenchidos
+              if (titulo.trim() !== "" && qtdPaginas.trim() !== "" && qtdExemplares.trim() !== "" && capa.trim() !== "" && autor.trim() !== "") {
+                  // Habilita o botão se todos os campos estiverem preenchidos
+                  publicarBtn.disabled = false;
+              } else {
+                  // Desabilita o botão se algum campo estiver vazio
+                  publicarBtn.disabled = true;
+              }
+          }
+      </script>
