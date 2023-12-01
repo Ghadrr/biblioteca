@@ -10,7 +10,8 @@ urlpatterns = [
     path('livro-indisponivel/', views.livro_indisponivel, name='livro_indisponivel'),
     path('livro-disponivel/', views.livro_disponivel, name='livro_disponivel'),
     path('search-livro/', views.search_livro, name='search_livro'),
-    path('adicionar_genero/', views.adicionar_genero, name='adicionar_genero')
-
+    path('adicionar_genero/', views.adicionar_genero, name='adicionar_genero'),
+    path('meus-livros/', views.livros_alugados, name='meus-livros'),
+    path('devolve_livro/<int:livro_id>/', views.devolve_livro, name='devolve_livro')
 
 ]

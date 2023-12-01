@@ -61,30 +61,23 @@
                 </div>
             </div>
         </nav>
-        <div class="card" style="width: 18rem;">
-            <img src="{{livro.capa.url}}" class="card-img-top" alt="...">
+<!-- Alterações na parte do loop que exibe os livros -->
+{% for livro_alugado in livros_alugados %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <img src="{{ livro_alugado.livro.capa.url }}" class="card-img-top" alt="{{ livro_alugado.livro.titulo }}">
             <div class="card-body">
-                <h5 class="card-title">{{livro.titulo}}</h5>
-                <p class="card-text">Genero: {{livro.genero}}</p>
-                <p class="card-text">Escritor: {{livro.autor}}</p>
-                <p class="card-text">Páginas: {{livro.qtd_paginas}}</p>
-                <p class="card-text">Exemplares: {{ livro.qtd_exemplares }}</p>
-    
-                {% if livro.qtd_exemplares > 0 %}
-                    <a href="{% url 'empresta_livro' livro.id %}" class="btn btn-primary">Emprestar</a>
-                {% else %}
-                    <button class="btn btn-primary" disabled>Indisponível</button>
-                {% endif %}
-    
-                <a href="{% url 'delete_livro' livro.id %}" class="btn btn-danger">Remover</a>
+                <h5 class="card-title">{{ livro_alugado.livro.titulo }}</h5>
+                <p class="card-text"><strong>Gênero:</strong> {{ livro_alugado.livro.genero }}</p>
+
+                <!-- Adicione outros detalhes do livro conforme necessário -->
+
+                <!-- Botão para devolver o livro -->
+                <a href="{% url 'devolve_livro' livro_alugado.livro.id %}" class="btn btn-danger">Devolver</a>
             </div>
         </div>
     </div>
+{% endfor %}
 
-
-</div>
-
-
+            
 </body>
-</html>
-

@@ -1,9 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Livros, Generos
+from .models import Livros, LivroAlugado
+
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Livros, Generos
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 @login_required(redirect_field_name='login')
 
@@ -42,9 +46,7 @@ def adicionar_genero(request):
         if novo_genero:
             Generos.objects.create(genero=novo_genero)
 
-        # Após adicionar o gênero, redirecione para a página desejada
-        return redirect('adicionar_genero')  # Substitua 'nome_da_pagina' pelo nome real da página
-
+        return redirect('adicionar_genero')  
     return redirect( 'home')
 
 def index(request):
@@ -63,15 +65,60 @@ def delete_livro(request, id):
     return redirect('home')
 
 
+# def empresta_livro(request, id):
+#     livro = Livros.objects.get(id=id)
+#     livro.qtd_exemplares -= 1
+#     livro.save()
+#     if livro.qtd_exemplares<1:
+#         livro.in_stock = False
+#         return redirect('home')
+#     else:
+#         return render(request, 'pages/livro_detail.html', {'livro': livro})
+
+
+
 def empresta_livro(request, id):
-    livro = Livros.objects.get(id=id)
-    livro.qtd_exemplares -= 1
-    livro.save()
-    if livro.qtd_exemplares<1:
-        livro.in_stock = False
-        return redirect('home')
-    else:
-        return render(request, 'pages/livro_detail.html', {'livro': livro})
+    livro = get_object_or_404(Livros, id=id)
+
+    # Verifica se o livro tem mais de um exemplar disponível
+    if livro.qtd_exemplares > 0:
+        # Atualiza o livro com as informações do empréstimo
+        livro.qtd_exemplares -= 1
+        livro.emprestado = True
+        livro.emprestado_para = request.user
+        livro.save()
+
+        # Adiciona o livro alugado ao modelo LivroAlugado
+        LivroAlugado.objects.create(usuario=request.user, livro=livro)
+
+        messages.success(request, f"Você pegou emprestado '{livro.titulo}'.")
+    # else:
+    #     messages.error(request, "Este livro não está disponível para empréstimo.")
+
+    return redirect('home')
+
+
+
+
+def devolve_livro(request, livro_id):
+    livro = get_object_or_404(Livros, id=livro_id)
+
+    # Verifica se o livro está emprestado
+    if livro.emprestado:
+        # Remove a instância correspondente em LivroAlugado
+        LivroAlugado.objects.filter(usuario=request.user, livro=livro).delete()
+
+        # Atualiza as informações do livro após a devolução
+        livro.emprestado = False
+        livro.emprestado_para = None
+        livro.qtd_exemplares += 1  # Aumenta a quantidade de exemplares disponíveis
+        livro.save()
+
+        messages.success(request, f"Você devolveu o livro '{livro.titulo}'.")
+
+    return redirect('home')  # Redireciona para a página de meus livros ou ajuste conforme necessário
+
+
 
 def livro_indisponivel(request):
     livros = Livros.objects.filter(qtd_exemplares=0)
@@ -86,3 +133,7 @@ def search_livro(request):
     q = request.GET.get('q')
     livros = Livros.objects.filter(titulo__icontains=q)
     return render(request, 'pages/index.html', {'livros':livros})
+
+def livros_alugados(request):
+    livros_alugados = LivroAlugado.objects.filter(usuario=request.user)
+    return render(request, 'pages/meus-livros.html', {'livros_alugados': livros_alugados})
