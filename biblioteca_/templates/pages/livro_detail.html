@@ -62,7 +62,11 @@
             </div>
         </nav>
         <div class="card" style="width: 18rem;">
+            {% if livro.capa %}
             <img src="{{livro.capa.url}}" class="card-img-top" alt="...">
+            {% else %}
+            <img src="https://www.ferramentastenace.com.br/wp-content/uploads/2017/11/sem-foto.jpg" class="card-img-top" alt="...">
+            {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{livro.titulo}}</h5>
                 <p class="card-text">Genero: {{livro.genero}}</p>

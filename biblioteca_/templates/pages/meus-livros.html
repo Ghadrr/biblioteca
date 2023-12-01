@@ -62,22 +62,33 @@
             </div>
         </nav>
 <!-- Alterações na parte do loop que exibe os livros -->
-{% for livro_alugado in livros_alugados %}
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <img src="{{ livro_alugado.livro.capa.url }}" class="card-img-top" alt="{{ livro_alugado.livro.titulo }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ livro_alugado.livro.titulo }}</h5>
-                <p class="card-text"><strong>Gênero:</strong> {{ livro_alugado.livro.genero }}</p>
-
-                <!-- Adicione outros detalhes do livro conforme necessário -->
-
-                <!-- Botão para devolver o livro -->
-                <a href="{% url 'devolve_livro' livro_alugado.livro.id %}" class="btn btn-danger">Devolver</a>
+{% if livros_alugados %}
+    <div class="row">
+        {% for livro_alugado in livros_alugados %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    {% if livro_alugado.livro %}
+                        <img src="{{ livro_alugado.livro.capa.url }}" class="card-img-top" alt="{{ livro_alugado.livro.titulo }}">
+                        <div class="card-body">
+                            
+                            <h5 class="card-title">{{ livro_alugado.livro.titulo }}</h5>
+                            <p class="card-text"><strong>Gênero:</strong> {{ livro_alugado.livro.genero }}</p>
+                            <a href="{% url 'devolve_livro' livro_alugado.livro.id %}" class="btn btn-danger">Devolver</a>
+                        </div>
+                    {% else %}
+                        <p>O livro não está disponível.</p>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
-{% endfor %}
+{% else %}
+    <!-- Se o usuário não tem livros alugados -->
+    <div class="alert alert-info" role="alert">
+        Você não possui livros alugados no momento.
+    </div>
+{% endif %}
+
 
             
 </body>

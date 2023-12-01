@@ -16,7 +16,7 @@ class Livros(models.Model):
     titulo = models.CharField(max_length=255)
     genero = models.ForeignKey(Generos, on_delete=models.CASCADE)
     qtd_paginas = models.IntegerField()
-    qtd_exemplares = models.IntegerField()
+    qtd_exemplares = models.IntegerField(default=1)
     capa = models.ImageField(blank=False)
     autor = models.CharField(max_length=255)
     emprestado_para = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='livros_pegos_emprestado', verbose_name='Emprestado para')

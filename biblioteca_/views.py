@@ -23,21 +23,23 @@ def add_book(request):
         # Obtenha a instância do modelo Generos com base no ID
         genero = get_object_or_404(Generos, id=genero_id)
 
-        Livros.objects.create(
-            user_id=request.user.id,
-            titulo=titulo,
-            genero=genero,
-            qtd_paginas=qtd_paginas,
-            qtd_exemplares=qtd_exemplares,
-            capa=capa,
-            autor=autor
-        )
+        # Verifica se a quantidade de exemplares é maior que zero
+        if int(qtd_exemplares) > 0:
+            Livros.objects.create(
+                user_id=request.user.id,
+                titulo=titulo,
+                genero=genero,
+                qtd_paginas=qtd_paginas,
+                qtd_exemplares=qtd_exemplares,
+                capa=capa,
+                autor=autor
+            )
+            return redirect('home')
+        else:
+            messages.error(request, 'A quantidade de exemplares deve ser maior que zero.')
 
-        return redirect('home')
-
-    else:
-        generos = Generos.objects.all()   
-        return render(request, 'pages/add-book.html', {'generos': generos})
+    generos = Generos.objects.all()   
+    return render(request, 'pages/add-book.html', {'generos': generos})
     
 def adicionar_genero(request):
     if request.method == 'POST':
@@ -99,14 +101,13 @@ def empresta_livro(request, id):
 
 
 
-
 def devolve_livro(request, livro_id):
     livro = get_object_or_404(Livros, id=livro_id)
 
     # Verifica se o livro está emprestado
     if livro.emprestado:
-        # Remove a instância correspondente em LivroAlugado
-        LivroAlugado.objects.filter(usuario=request.user, livro=livro).delete()
+        # Remove todas as instâncias associadas ao livro em LivroAlugado
+        LivroAlugado.objects.filter(livro=livro).delete()
 
         # Atualiza as informações do livro após a devolução
         livro.emprestado = False
@@ -117,8 +118,6 @@ def devolve_livro(request, livro_id):
         messages.success(request, f"Você devolveu o livro '{livro.titulo}'.")
 
     return redirect('home')  # Redireciona para a página de meus livros ou ajuste conforme necessário
-
-
 
 def livro_indisponivel(request):
     livros = Livros.objects.filter(qtd_exemplares=0)

@@ -18,7 +18,7 @@ def user_login(request):
     
     else:
         return render(request, 'pages/login.html')
-    
+
 
 def register(request):
     if request.method == 'POST':
@@ -26,10 +26,19 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirmPassword = request.POST.get('rPassword')
-        User.objects.create_user(username=username,
-                                 email=email,
-                                 password=password)
+
+        # Verifica se o nome de usuário contém apenas espaços em branco ou está vazio
+        if username.isspace() or not username:
+            messages.error(request, 'Nome de usuário inválido. Por favor, insira um nome de usuário válido.')
+            return redirect('register')
+
+        # Restante do seu código de validação aqui...
+
+        # Cria o usuário apenas se a validação passar
+        User.objects.create_user(username=username, email=email, password=password)
+
         return redirect('login')
+
     else:
         return render(request, 'pages/register.html')
 
