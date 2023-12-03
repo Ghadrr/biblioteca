@@ -10,7 +10,6 @@ from django.contrib import messages
 
 
 @login_required(redirect_field_name='login')
-
 def add_book(request):
     if request.method == 'POST':
         titulo = request.POST.get('titulo')
@@ -23,7 +22,6 @@ def add_book(request):
         # Obtenha a instância do modelo Generos com base no ID
         genero = get_object_or_404(Generos, id=genero_id)
 
-        # Verifica se a quantidade de exemplares é maior que zero
         if int(qtd_exemplares) > 0:
             Livros.objects.create(
                 user_id=request.user.id,
@@ -35,12 +33,13 @@ def add_book(request):
                 autor=autor
             )
             return redirect('home')
-        else:
-            messages.error(request, 'A quantidade de exemplares deve ser maior que zero.')
+        # else:
+        #     messages.error(request, 'A quantidade de exemplares deve ser maior que zero.')
 
     generos = Generos.objects.all()   
     return render(request, 'pages/add-book.html', {'generos': generos})
-    
+
+@login_required(redirect_field_name='login')   
 def adicionar_genero(request):
     if request.method == 'POST':
         novo_genero = request.POST.get('novo_genero')
@@ -51,11 +50,13 @@ def adicionar_genero(request):
         return redirect('adicionar_genero')  
     return redirect( 'home')
 
+@login_required(redirect_field_name='login')
 def index(request):
     livros = Livros.objects.all()
 
     return render(request, 'pages/index.html', {'livros':livros})
 
+@login_required(redirect_field_name='login')   
 def livro_detail(request, id):
     livro = Livros.objects.get(id=id)
 
@@ -93,7 +94,7 @@ def empresta_livro(request, id):
         # Adiciona o livro alugado ao modelo LivroAlugado
         LivroAlugado.objects.create(usuario=request.user, livro=livro)
 
-        messages.success(request, f"Você pegou emprestado '{livro.titulo}'.")
+        # messages.success(request, f"Você pegou emprestado '{livro.titulo}'.")
     # else:
     #     messages.error(request, "Este livro não está disponível para empréstimo.")
 
@@ -115,7 +116,7 @@ def devolve_livro(request, livro_id):
         livro.qtd_exemplares += 1  # Aumenta a quantidade de exemplares disponíveis
         livro.save()
 
-        messages.success(request, f"Você devolveu o livro '{livro.titulo}'.")
+        # messages.success(request, f"Você devolveu o livro '{livro.titulo}'.")
 
     return redirect('home')  # Redireciona para a página de meus livros ou ajuste conforme necessário
 
@@ -133,6 +134,7 @@ def search_livro(request):
     livros = Livros.objects.filter(titulo__icontains=q)
     return render(request, 'pages/index.html', {'livros':livros})
 
+@login_required(redirect_field_name='login') 
 def livros_alugados(request):
     livros_alugados = LivroAlugado.objects.filter(usuario=request.user)
     return render(request, 'pages/meus-livros.html', {'livros_alugados': livros_alugados})

@@ -32,11 +32,35 @@
                         <label for="rPassword" class="form-label">Repita a Senha</label>
                         <input type="password" class="form-control" id="rPassword" name="rPassword" placeholder="Repita sua senha" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="submit" id="btnCadastrar" class="btn btn-primary"disabled >Cadastrar</button>
                 </form>
             </div>
         </div>
     </div>
 
 </body>
-</html>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("username").addEventListener("input", checkForm);
+        document.getElementById("email").addEventListener("input", checkForm);
+        document.getElementById("password").addEventListener("input", checkForm);
+        document.getElementById("rPassword").addEventListener("input", checkForm);
+    });
+
+    function checkForm() {
+        var user = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var rPassword = document.getElementById("rPassword").value;
+
+        var cadastrarBtn = document.getElementById("btnCadastrar");
+
+        if (user.trim() !== "" && email.trim() !== "" && password.trim() !== "" && rPassword.trim() !== "") {
+            cadastrarBtn.disabled = false;
+        } else {
+            cadastrarBtn.disabled = true;
+        }
+    }
+</script>
